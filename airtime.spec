@@ -7,6 +7,7 @@ License:        AGPL
 URL:            https://github.com/radiorabe/airtime
 Source0:        https://github.com/radiorabe/airtime/archive/2.5.x.zip
 
+BuildRequires: python-setuptools
 BuildRequires: python-pip
 BuildRequires: pytz
 BuildRequires: python-mutagen
@@ -59,7 +60,9 @@ pushd python_apps/media-monitor/
 # this is not called in a specfile :)
 # python setup.py bdist_rpm
 # lets do it using pip :)
-pip install --install-option="--prefix=$RPM_BUILD_ROOT/%{_prefix}"  .
+#pip install --install-option="--prefix=$RPM_BUILD_ROOT/%{_prefix}"  .
+# or even easy_install since pip goesn't on osb
+easy_install -d $RPM_BUILD_ROOT/%{_prefix}/python2.7/site-packages -s $RPM_BUILD_ROOT/%{_prefix}/bin
 popd
 
 %clean
