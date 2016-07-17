@@ -7,7 +7,7 @@ License:        AGPL
 URL:            https://github.com/radiorabe/airtime
 Source0:        https://github.com/radiorabe/airtime/archive/2.5.x.zip
 
-#BuildRequires:  
+BuildRequires:  python-pip
 #Requires:       
 
 %description
