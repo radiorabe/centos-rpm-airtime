@@ -23,7 +23,7 @@ of Sourcefabric's Airtime Software.
 
 %prep
 %setup -q
-%patch
+%patch -P 0
 
 %build
 ls -al
