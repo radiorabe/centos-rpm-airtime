@@ -6,6 +6,7 @@ Summary:        radio rabe airtime installation
 License:        AGPL
 URL:            https://github.com/radiorabe/airtime
 Source0:        https://github.com/radiorabe/airtime/archive/2.5.x.zip
+Patch0:         media-monitor-disable-data_file.patch
 
 BuildRequires: python-setuptools
 BuildRequires: python-pip
@@ -22,7 +23,7 @@ of Sourcefabric's Airtime Software.
 
 %prep
 %setup -q
-
+%patch -q
 
 %build
 ls -al
@@ -64,7 +65,7 @@ pushd python_apps/media-monitor/
 # or even easy_install since pip goesn't on osb
 export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
 mkdir -p $RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
-easy_install --no-init-script --prefix $RPM_BUILD_ROOT/%{_prefix} .
+easy_install --prefix $RPM_BUILD_ROOT/%{_prefix} .
 popd
 
 %clean
