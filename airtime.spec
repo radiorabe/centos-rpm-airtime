@@ -64,7 +64,7 @@ pushd python_apps/media-monitor/
 # or even easy_install since pip goesn't on osb
 export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
 mkdir -p $RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
-easy_install --prefix $RPM_BUILD_ROOT/%{_prefix}
+easy_install --prefix $RPM_BUILD_ROOT/%{_prefix} .
 popd
 
 %clean
