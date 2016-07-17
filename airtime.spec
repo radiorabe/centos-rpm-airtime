@@ -7,8 +7,13 @@ License:        AGPL
 URL:            https://github.com/radiorabe/airtime
 Source0:        https://github.com/radiorabe/airtime/archive/2.5.x.zip
 
-BuildRequires:  python-pip
-#Requires:       
+BuildRequires: python-pip
+BuildRequires: pytz
+BuildRequires: python-mutagen
+BuildRequires: python-amqp
+BuildRequires: python-amqplib
+BuildRequires: python-six
+BuildRequires: python-configobj
 
 %description
 RPM packaging for Radio Bern RaBe's CentOS-7 based installation
@@ -69,11 +74,11 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 
 %package -n airtime-web
+Summary: radio rabe airtime web interface installation
 
-Summary:    radio rabe airtime web interface installation
-Requires:   rh-php56-php
-Requires:   httpd24-httpd
-Requires:   liquidsoap
+Requires: rh-php56-php
+Requires: httpd24-httpd
+Requires: liquidsoap
 
 %description -n airtime-web
 Installs the airtime web interface into http24/php56 using fpm.
@@ -83,8 +88,8 @@ Installs the airtime web interface into http24/php56 using fpm.
 %config /opt/rh/httpd24/root/var/www/application/configs/application.ini
 
 %package -n airtime-utils
+Summary: radio rabe airtime utils installation
 
-Summary:    radio rabe airtime utils installation
 %description -n airtime-utils
 Installs the various utils neeeded by airtime to d stuff on the cli.
 
@@ -97,17 +102,18 @@ Installs the various utils neeeded by airtime to d stuff on the cli.
 /usr/bin/airtime-test-*
 
 %package -n airtime-media-monitor
-
-Summary:   radio rabe airtime media montitor installation
-%description -n airtime-media-monitor
-airtime media-monitor imports uploaded files and watches directories
+Summary: radio rabe airtime media montitor installation
 
 Requires: pytz
 Requires: python-mutagen
-Require:  python-amqp
-Require:  python-amqplib
-Require:  python-six
-Require:  python-configobj
+Requires: python-amqp
+Requires: python-amqplib
+Requires: python-six
+Requires: python-configobj
+
+%description -n airtime-media-monitor
+airtime media-monitor imports uploaded files and watches directories
+
 %files -n airtime-media-monitor
 /usr/bin/airtime-media-monitor
 /usr/lib/python2.7/site-packages/PyDispatcher-2.0.5-py2.7.egg-info/
