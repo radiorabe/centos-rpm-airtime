@@ -1,5 +1,5 @@
 diff --git a/python_apps/media-monitor/setup.py b/python_apps/media-monitor/setup.py
-index 3031b14..7f85749 100644
+index 3031b14..3d241fd 100644
 --- a/python_apps/media-monitor/setup.py
 +++ b/python_apps/media-monitor/setup.py
 @@ -7,29 +7,6 @@ script_path = os.path.dirname(os.path.realpath(__file__))
@@ -32,13 +32,15 @@ index 3031b14..7f85749 100644
  setup(name='airtime-media-monitor',
        version='1.0',
        description='Airtime Media Monitor',
-@@ -56,8 +33,7 @@ setup(name='airtime-media-monitor',
-           'pytz',
+@@ -57,10 +34,4 @@ setup(name='airtime-media-monitor',
            'wsgiref'
        ],
--      zip_safe=False,
+       zip_safe=False,
 -      data_files=data_files)
-+      zip_safe=False)
- 
- # Reload the initctl config so that the media-monitor service works
- if data_files:
+-
+-# Reload the initctl config so that the media-monitor service works
+-if data_files:
+-    print "Reloading initctl configuration"
+-    #call(['initctl', 'reload-configuration'])
+-    print "Run \"sudo service airtime-media-monitor start\""
++      data_files=[])
