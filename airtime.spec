@@ -19,6 +19,7 @@ BuildRequires: python-configobj
 BuildRequires: python-inotify
 BuildRequires: python-pydispatcher
 BuildRequires: python-poster
+BuildRequires: python-kombu
 
 %description
 RPM packaging for Radio Bern RaBe's CentOS-7 based installation
@@ -125,6 +126,7 @@ Requires: python-configobj
 Requires: python-inotify
 Requires: python-pydispatcher
 Requires: python-poster
+Requires: python-kombu
 
 %description -n airtime-media-monitor
 airtime media-monitor imports uploaded files and watches directories
