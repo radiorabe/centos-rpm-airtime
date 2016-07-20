@@ -69,7 +69,7 @@ export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
 #easy_install --prefix $RPM_BUILD_ROOT/%{_prefix} .
 # and now we try setup.py directly
 python setup.py build
-python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}
+python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr
 popd
 
 %clean
