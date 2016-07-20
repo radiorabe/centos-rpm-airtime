@@ -6,6 +6,6 @@ This repository contains the specfile for airtime which is part of the [obs buil
 ## Usage
 
 ```bash
-yum install http://download.opensuse.org/repositories/home:/radiorabe:/airtime/CentOS_7/home:radiorabe:airtime.repo
+curl -o /etc/yum.repos.d/airtime.repo http://download.opensuse.org/repositories/home:/radiorabe:/airtime/CentOS_7/home:radiorabe:airtime.repo
 yum install airtime-*
 ```
