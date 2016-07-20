@@ -64,9 +64,12 @@ pushd python_apps/media-monitor/
 # lets do it using pip :)
 #pip install --install-option="--prefix=$RPM_BUILD_ROOT/%{_prefix}"  .
 # or even easy_install since pip goesn't on osb
-export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
-mkdir -p $RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
-easy_install --prefix $RPM_BUILD_ROOT/%{_prefix} .
+#export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
+#mkdir -p $RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
+#easy_install --prefix $RPM_BUILD_ROOT/%{_prefix} .
+# and now we try setup.py directly
+python setup.py build
+python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}
 popd
 
 %clean
