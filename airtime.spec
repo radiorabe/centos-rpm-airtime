@@ -17,6 +17,7 @@ BuildRequires: python-amqplib
 BuildRequires: python-six
 BuildRequires: python-configobj
 BuildRequires: python-inotify
+BuildRequires: python-pydispatcher
 
 %description
 RPM packaging for Radio Bern RaBe's CentOS-7 based installation
@@ -121,6 +122,7 @@ Requires: python-amqplib
 Requires: python-six
 Requires: python-configobj
 Requires: python-inotify
+Requires: python-pydispatcher
 
 %description -n airtime-media-monitor
 airtime media-monitor imports uploaded files and watches directories
