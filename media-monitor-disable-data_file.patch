@@ -1,5 +1,5 @@
 diff --git a/python_apps/media-monitor/setup.py b/python_apps/media-monitor/setup.py
-index 3031b14..3763ce6 100644
+index 3031b14..7292e82 100644
 --- a/python_apps/media-monitor/setup.py
 +++ b/python_apps/media-monitor/setup.py
 @@ -7,29 +7,6 @@ script_path = os.path.dirname(os.path.realpath(__file__))
@@ -32,16 +32,24 @@ index 3031b14..3763ce6 100644
  setup(name='airtime-media-monitor',
        version='1.0',
        description='Airtime Media Monitor',
-@@ -45,7 +22,6 @@ setup(name='airtime-media-monitor',
+@@ -43,9 +20,9 @@ setup(name='airtime-media-monitor',
+       package_data={'': ['*.cfg']},
+       scripts=['bin/airtime-media-monitor'],
        install_requires=[
++          'amqp>=1.1.0',
            'amqplib',
            'anyjson',
 -          'argparse',
            'configobj',
            'docopt',
            'kombu',
-@@ -57,10 +33,4 @@ setup(name='airtime-media-monitor',
-           'wsgiref'
+@@ -53,14 +30,7 @@ setup(name='airtime-media-monitor',
+           'poster',
+           'PyDispatcher',
+           'pyinotify',
+-          'pytz',
+-          'wsgiref'
++          'pytz'
        ],
        zip_safe=False,
 -      data_files=data_files)
