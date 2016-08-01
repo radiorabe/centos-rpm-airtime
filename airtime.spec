@@ -21,6 +21,7 @@ BuildRequires: python-pydispatcher
 BuildRequires: python-poster
 BuildRequires: python-kombu
 BuildRequires: python-docopt
+BuildRequires: python-mutagen
 
 %description
 RPM packaging for Radio Bern RaBe's CentOS-7 based installation
