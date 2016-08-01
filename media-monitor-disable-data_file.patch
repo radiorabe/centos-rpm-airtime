@@ -36,7 +36,6 @@ index 3031b14..7292e82 100644
        package_data={'': ['*.cfg']},
        scripts=['bin/airtime-media-monitor'],
        install_requires=[
-+          'amqp>=1.1.0',
            'amqplib',
            'anyjson',
 -          'argparse',
