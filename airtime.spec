@@ -120,6 +120,7 @@ Installs the various utils neeeded by airtime to d stuff on the cli.
 %package -n airtime-media-monitor
 Summary: radio rabe airtime media montitor installation
 
+Requires: python
 Requires: pytz
 Requires: python-mutagen
 Requires: python-amqp
