@@ -20,6 +20,7 @@ BuildRequires: python-inotify
 BuildRequires: python-pydispatcher
 BuildRequires: python-poster
 BuildRequires: python-kombu
+BuildRequires: python-docopt
 
 %description
 RPM packaging for Radio Bern RaBe's CentOS-7 based installation
@@ -133,19 +134,5 @@ airtime media-monitor imports uploaded files and watches directories
 
 %files -n airtime-media-monitor
 /usr/bin/airtime-media-monitor
-/usr/lib/python2.7/site-packages/PyDispatcher-2.0.5-py2.7.egg-info/
-/usr/lib/python2.7/site-packages/airtime_media_monitor-1.0-py2.7.egg-info/
-/usr/lib/python2.7/site-packages/amqp-1.0.13-py2.7.egg-info/
-/usr/lib/python2.7/site-packages/amqp/
-/usr/lib/python2.7/site-packages/argparse-1.4.0-py2.7.egg-info/
-/usr/lib/python2.7/site-packages/argparse.*
-/usr/lib/python2.7/site-packages/media_monitor/
-/usr/lib/python2.7/site-packages/mm2/
-/usr/lib/python2.7/site-packages/poster-0.8.1-py2.7.egg-info/
-/usr/lib/python2.7/site-packages/poster/
-/usr/lib/python2.7/site-packages/pydispatch/
-/usr/lib/python2.7/site-packages/pyinotify-0.9.6-py2.7.egg-info/
-/usr/lib/python2.7/site-packages/pyinotify.*
-/usr/lib/python2.7/site-packages/tests/
-
+/usr/lib/python2.7/site-packages/*
 
