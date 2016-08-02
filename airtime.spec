@@ -63,25 +63,25 @@ cp airtime-test-soundcard \
    $RPM_BUILD_ROOT/usr/bin/
 popd
 
-export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
-mkdir -p $RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
+export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib64/python2.7/site-packages
+mkdir -p $RPM_BUILD_ROOT/${_prefix}usr/lib64/python2.7/site-packages
 
 # install media-monitor python app
 pushd python_apps/media-monitor/
 python setup.py build
-python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr
+python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=lib64
 popd
 
 # install std_err_override module
 pushd python_apps/std_err_override/
 python setup.py build
-python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr
+python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=lib64
 popd
 
 # install api_clients module
 pushd python_apps/api_clients/
 python setup.py build
-python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr
+python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=lib64
 popd
 
 # remove global python stuff
@@ -153,7 +153,7 @@ airtime media-monitor imports uploaded files and watches directories
 
 %files -n airtime-media-monitor
 /usr/bin/airtime-media-monitor
-/usr/lib/python2.7/site-packages/airtime_media_monitor*
+/usr/lib64/python2.7/site-packages/airtime_media_monitor*
 
 
 %package -n airtime-std_err_override
@@ -167,7 +167,7 @@ Requires: python
 stderr overriding capabilities for airtime
 
 %files -n airtime-std_err_override
-/usr/lib/python2.7/site-packages/std_err_override*
+/usr/lib64/python2.7/site-packages/std_err_override*
 
 %package -n airtime-api_clients
 Summary: radio rabe airtime python api clients
@@ -180,4 +180,4 @@ Requires: python
 airtime python api client library
 
 %files -n airtime-api_clients
-/usr/lib/python2.7/site-packages/api_clients*
+/usr/lib64/python2.7/site-packages/api_clients*
