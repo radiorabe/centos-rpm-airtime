@@ -78,6 +78,15 @@ python setup.py build
 python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr
 popd
 
+# install std_err_override module
+pushd python_apps/std_err_override/
+export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
+mkdir -p $RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
+python setup.py build
+python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr
+popd
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -133,11 +142,23 @@ Requires: python-inotify
 Requires: python-pydispatcher
 Requires: python-poster
 Requires: python-kombu
+Requires: python-docopt
+Requires: python-vine
+Requires: airtime-std_err_override
 
 %description -n airtime-media-monitor
 airtime media-monitor imports uploaded files and watches directories
 
 %files -n airtime-media-monitor
 /usr/bin/airtime-media-monitor
-/usr/lib/python2.7/site-packages/*
+/usr/lib/python2.7/site-packages/airtime_media_monitor*
 
+%package -n airtime-std_err_override
+Summary: radio rabe airtime std_err_override installation
+
+AutoReqProv: no
+
+Requires: python
+
+%files -n airtime-std_err_override
+/usr/lib/python2.7/site-packages/std_err_override*
