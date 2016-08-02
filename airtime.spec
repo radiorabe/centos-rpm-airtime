@@ -63,31 +63,30 @@ cp airtime-test-soundcard \
    $RPM_BUILD_ROOT/usr/bin/
 popd
 
-# install media-monitor python app
-pushd python_apps/media-monitor/
-# this is not called in a specfile :)
-# python setup.py bdist_rpm
-# lets do it using pip :)
-#pip install --install-option="--prefix=$RPM_BUILD_ROOT/%{_prefix}"  .
-# or even easy_install since pip goesn't on osb
 export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
 mkdir -p $RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
-#easy_install --prefix $RPM_BUILD_ROOT/%{_prefix} .
-# and now we try setup.py directly
+
+# install media-monitor python app
+pushd python_apps/media-monitor/
 python setup.py build
 python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr
 popd
 
 # install std_err_override module
 pushd python_apps/std_err_override/
-export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
-mkdir -p $RPM_BUILD_ROOT/${_prefix}usr/lib/python2.7/site-packages
+python setup.py build
+python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr
+popd
+
+# install api_clients module
+pushd python_apps/api_clients/
 python setup.py build
 python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr
 popd
 
 # remove global python stuff
-rm $RPM_BUILD_ROOT/${_prefix}easy-install.pth $RPM_BUILD_ROOT/${_prefix}site.*
+rm $PYTHONPATH/easy-install.pth \
+   $PYTHONPATH/site.*
 
 
 %clean
@@ -156,6 +155,7 @@ airtime media-monitor imports uploaded files and watches directories
 /usr/bin/airtime-media-monitor
 /usr/lib/python2.7/site-packages/airtime_media_monitor*
 
+
 %package -n airtime-std_err_override
 Summary: radio rabe airtime std_err_override installation
 
@@ -168,3 +168,16 @@ stderr overriding capabilities for airtime
 
 %files -n airtime-std_err_override
 /usr/lib/python2.7/site-packages/std_err_override*
+
+%package -n airtime-api_clients
+Summary: radio rabe airtime python api clients
+
+AutoReqProv: no
+
+Requires: python
+
+%description -n airtime-api_clients
+airtime python api client library
+
+%files -n airtime-api_clients
+/usr/lib/python2.7/site-packages/api_clients*
