@@ -76,12 +76,14 @@ popd
 pushd python_apps/std_err_override/
 python setup.py build
 python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PYTHONPATH
+mv $PYTHONPATH/std_err_override*egg/std_err_override $PYTHONPATH/std_err_override
 popd
 
 # install api_clients module
 pushd python_apps/api_clients/
 python setup.py build
 python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PYTHONPATH
+mv $PYTHONPATH/api_clients*egg/api_clients $PYTHONPATH/api_clients
 popd
 
 # remove global python stuff
@@ -147,6 +149,7 @@ Requires: python-kombu
 Requires: python-docopt
 Requires: python-vine
 Requires: airtime-std_err_override
+Requires: airtime-api_clients
 
 %description -n airtime-media-monitor
 airtime media-monitor imports uploaded files and watches directories
