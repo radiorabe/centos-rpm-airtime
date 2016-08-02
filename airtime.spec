@@ -86,6 +86,9 @@ python setup.py build
 python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr
 popd
 
+# remove global python stuff
+rm $RPM_BUILD_ROOT/${_prefix}easy-install.pth $RPM_BUILD_ROOT/${_prefix}site.*
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -159,6 +162,9 @@ Summary: radio rabe airtime std_err_override installation
 AutoReqProv: no
 
 Requires: python
+
+%description -n airtime-std_err_override
+stderr overriding capabilities for airtime
 
 %files -n airtime-std_err_override
 /usr/lib/python2.7/site-packages/std_err_override*
