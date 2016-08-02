@@ -64,24 +64,24 @@ cp airtime-test-soundcard \
 popd
 
 export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib64/python2.7/site-packages
-mkdir -p $RPM_BUILD_ROOT/${_prefix}usr/lib64/python2.7/site-packages
+mkdir -p $PYTHONPATH
 
 # install media-monitor python app
 pushd python_apps/media-monitor/
 python setup.py build
-python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=lib64
+python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PYTHONPATH
 popd
 
 # install std_err_override module
 pushd python_apps/std_err_override/
 python setup.py build
-python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=lib64
+python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PYTHONPATH
 popd
 
 # install api_clients module
 pushd python_apps/api_clients/
 python setup.py build
-python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=lib64
+python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PYTHONPATH
 popd
 
 # remove global python stuff
