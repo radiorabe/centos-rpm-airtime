@@ -70,6 +70,8 @@ mkdir -p $PYTHONPATH
 pushd python_apps/media-monitor/
 python setup.py build
 python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PYTHONPATH
+mkdir -p $RPM_BUILD_ROOT/${_prefix}etc/airtime/
+cp install/media_monitor_logging.cfg $RPM_BUILD_ROOT/${_prefix}etc/airtime/media_monitor_logging.cfg
 popd
 
 # install std_err_override module
@@ -157,6 +159,7 @@ airtime media-monitor imports uploaded files and watches directories
 %files -n airtime-media-monitor
 /usr/bin/airtime-media-monitor
 /usr/lib64/python2.7/site-packages/airtime_media_monitor*
+%config/etc/airtime/media_monitor_logging.cfg
 
 
 %package -n airtime-std_err_override
