@@ -6,6 +6,7 @@ Summary:        radio rabe airtime installation
 License:        AGPL
 URL:            https://github.com/radiorabe/airtime
 Source0:        https://github.com/radiorabe/airtime/archive/2.5.x.zip
+Source1:        airtime-media-monitor.service
 Patch0:         media-monitor-disable-data_file.patch
 
 BuildRequires: python-setuptools
@@ -73,6 +74,8 @@ python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PY
 mkdir -p $RPM_BUILD_ROOT/${_prefix}etc/airtime/
 cp install/media_monitor_logging.cfg $RPM_BUILD_ROOT/${_prefix}etc/airtime/media_monitor_logging.cfg
 popd
+cp %{SOURCE1} $RPM_BUILD_ROOT/${_prefix}usr/lib/systemd/system/airtime-media-monitor.service
+
 
 # install std_err_override module
 pushd python_apps/std_err_override/
@@ -160,6 +163,7 @@ airtime media-monitor imports uploaded files and watches directories
 %files -n airtime-media-monitor
 /usr/bin/airtime-media-monitor
 /usr/lib64/python2.7/site-packages/airtime_media_monitor*
+/usr/lib/systemd/system/airtime-media-monitor.service
 %config/etc/airtime/media_monitor_logging.cfg
 
 

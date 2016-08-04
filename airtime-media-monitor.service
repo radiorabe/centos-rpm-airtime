@@ -1,0 +1,8 @@
+[Unit]
+Description=Airtime Media-Monitor Service
+
+[Service]
+ExecStart=/usr/bin/airtime-media-monitor
+
+[Install]
+WantedBy=multi-user.target
