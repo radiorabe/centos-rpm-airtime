@@ -152,6 +152,7 @@ Requires: python-docopt
 Requires: python-vine
 Requires: airtime-std_err_override
 Requires: airtime-api_clients
+Requires: lsof
 
 %description -n airtime-media-monitor
 airtime media-monitor imports uploaded files and watches directories
