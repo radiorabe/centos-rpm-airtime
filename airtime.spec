@@ -74,6 +74,7 @@ python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PY
 mkdir -p $RPM_BUILD_ROOT/${_prefix}etc/airtime/
 cp install/media_monitor_logging.cfg $RPM_BUILD_ROOT/${_prefix}etc/airtime/media_monitor_logging.cfg
 popd
+mkdir -p $RPM_BUILD_ROOT/${_prefix}usr/lib/systemd/system/
 cp %{SOURCE1} $RPM_BUILD_ROOT/${_prefix}usr/lib/systemd/system/airtime-media-monitor.service
 
 
