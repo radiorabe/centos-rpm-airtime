@@ -101,7 +101,6 @@ popd
 pushd python_apps/pypo/
 python setup.py build
 python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PYTHONPATH
-mv $PYTHONPATH/pypo*egg/pypo $PYTHONPATH/pypo
 popd
 
 # install icecast xsl
