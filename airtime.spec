@@ -8,6 +8,7 @@ URL:            https://github.com/radiorabe/airtime
 Source0:        https://github.com/radiorabe/airtime/archive/2.5.x.zip
 Source1:        airtime-media-monitor.service
 Patch0:         media-monitor-disable-data_file.patch
+Patch1:         pypo-disable-data_file.patch
 
 BuildRequires: python-setuptools
 BuildRequires: python-pip
@@ -31,7 +32,8 @@ of Sourcefabric's Airtime Software.
 
 %prep
 %setup -q
-%patch -P 0 -p 1
+%patch0 -p 1
+%patch1 -p 1
 
 %build
 ls -al
