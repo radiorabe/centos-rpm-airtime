@@ -1,0 +1,19 @@
+diff --git a/python_apps/media-monitor/install/media_monitor_logging.cfg b/python_apps/media-monitor/install/media_monitor_logging.cfg
+index ea24f69..bf40810 100644
+--- a/python_apps/media-monitor/install/media_monitor_logging.cfg
++++ b/python_apps/media-monitor/install/media_monitor_logging.cfg
+@@ -22,11 +22,11 @@ handlers=fileOutHandler
+ qualname=metadata
+ 
+ [handler_fileOutHandler]
+-class=logging.handlers.RotatingFileHandler
++class=StreamHandler
+ level=DEBUG
+ formatter=simpleFormatter
+-args=("/var/log/airtime/media-monitor/media-monitor.log", 'a', 10000000, 5,)
++args=(sys.stdout,)
+ 
+ [formatter_simpleFormatter]
+-format=%(asctime)s %(levelname)s - [%(threadName)s] [%(filename)s : %(funcName)s()] : LINE %(lineno)d - %(message)s
++format={"level": {"name": "%(levelname)s", "no": %(levelno)s}, "source": {"path": "%(pathname)s", "function": "%(funcName)s", "line": "%(lineno)d"}, "timestamp": "%(created)f", "uptime": "%(relativeCreated)d", "pid": "%(process)d", "message": "%(message)s"}
+ datefmt=

@@ -1,5 +1,5 @@
 diff --git a/python_apps/pypo/setup.py b/python_apps/pypo/setup.py
-index 76011e7..f59f201 100644
+index 76011e7..a88fb4d 100644
 --- a/python_apps/pypo/setup.py
 +++ b/python_apps/pypo/setup.py
 @@ -17,19 +17,7 @@ else:
@@ -23,3 +23,21 @@ index 76011e7..f59f201 100644
  
  setup(name='airtime-playout',
        version='1.0',
+@@ -48,7 +36,6 @@ setup(name='airtime-playout',
+       install_requires=[
+           'amqplib',
+           'anyjson',
+-          'argparse',
+           'configobj',
+           'docopt',
+           'kombu',
+@@ -57,8 +44,7 @@ setup(name='airtime-playout',
+           'PyDispatcher',
+           'pyinotify',
+           'pytz',
+-          'requests',
+-          'wsgiref'
++          'requests'
+       ],
+       zip_safe=False,
+       data_files=data_files)
