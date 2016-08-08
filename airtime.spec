@@ -25,6 +25,7 @@ BuildRequires: python-kombu
 BuildRequires: python-docopt
 BuildRequires: python-mutagen
 BuildRequires: python-vine
+BuildRequires: python-requests
 
 %description
 RPM packaging for Radio Bern RaBe's CentOS-7 based installation
@@ -217,6 +218,7 @@ Summary: radio rabe airtime pypo installation
 AutoReqProv: no
 
 Requires: python
+Requires: python-requests
 Requires: liquidsoap
 
 %description -n airtime-pypo
