@@ -92,6 +92,19 @@ python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PY
 mv $PYTHONPATH/api_clients*egg/api_clients $PYTHONPATH/api_clients
 popd
 
+# install pypo module
+pushd python_apps/pypo/
+python setup.py build
+python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PYTHONPATH
+mv $PYTHONPATH/pypo*egg/pypo $PYTHONPATH/pypo
+popd
+
+# install icecast xsl
+pushd python_apps/icecast2
+mkdir -p $RPM_BUILD_ROOT/${_prefix}usr/share/icecast/web
+cp airtime-icecast-status.xsl $RPM_BUILD_ROOT/${_prefix}usr/share/icecast/web/airtime-icecast-status.xsl
+popd
+
 # remove global python stuff
 rm $PYTHONPATH/easy-install.pth \
    $PYTHONPATH/site.*
@@ -181,6 +194,7 @@ stderr overriding capabilities for airtime
 %files -n airtime-std_err_override
 /usr/lib64/python2.7/site-packages/std_err_override*
 
+
 %package -n airtime-api_clients
 Summary: radio rabe airtime python api clients
 
@@ -193,3 +207,32 @@ airtime python api client library
 
 %files -n airtime-api_clients
 /usr/lib64/python2.7/site-packages/api_clients*
+
+
+%package -n airtime-pypo
+Summary: radio rabe airtime pypo installation
+
+AutoReqProv: no
+
+Requires: python
+Requires: liquidsoap
+
+%description -n airtime-pypo
+Python Play-Out for airtime calls liquidsoap as defined in airtime.
+
+%files -n airtime-pypo
+/usr/lib64/python2.7/site-packages/pypo
+
+
+%package -n airtime-icecast
+Summary: radio rabe airtime icecast xsl installation
+
+AutoReqProv: no
+
+Requires: icecast
+
+%description -n airtime-icecast
+Install airtimes xsl into icecast.
+
+%files -n airtime-icecast
+/usr/share/icecast/web/airtime-icecast-status.xsl
