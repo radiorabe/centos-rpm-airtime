@@ -17,3 +17,16 @@ index ea24f69..bf40810 100644
 -format=%(asctime)s %(levelname)s - [%(threadName)s] [%(filename)s : %(funcName)s()] : LINE %(lineno)d - %(message)s
 +format={"level": {"name": "%(levelname)s", "no": %(levelno)s}, "source": {"path": "%(pathname)s", "function": "%(funcName)s", "line": "%(lineno)d"}, "timestamp": "%(created)f", "uptime": "%(relativeCreated)d", "pid": "%(process)d", "message": "%(message)s"}
  datefmt=
+diff --git a/python_apps/media-monitor/mm2/media/monitor/organizer.py b/python_apps/media-monitor/mm2/media/monitor/organizer.py
+index c4550bd..5a1e30d 100644
+--- a/python_apps/media-monitor/mm2/media/monitor/organizer.py
++++ b/python_apps/media-monitor/mm2/media/monitor/organizer.py
+@@ -76,7 +76,7 @@ class Organizer(ReportHandler,Loggable):
+             # detect it from the file
+             user().owner.add_file_owner(new_path, owner_id )
+ 
+-            self.logger.info('Organized: "%s" into "%s"' %
++            self.logger.info('Organized: \'%s\' into \'%s\'' %
+                     (event.path, new_path))
+         except BadSongFile as e:
+             self.report_problem_file(event=event, exception=e)
