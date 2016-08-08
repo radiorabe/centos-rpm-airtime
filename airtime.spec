@@ -226,7 +226,10 @@ Requires: liquidsoap
 Python Play-Out for airtime calls liquidsoap as defined in airtime.
 
 %files -n airtime-pypo
-/usr/lib64/python2.7/site-packages/pypo
+/usr/lib64/python2.7/site-packages/airtime_playout-1.0-py2.7.egg
+/usr/bin/airtime-liquidsoap
+/usr/bin/airtime-playout
+/usr/bin/pyponotify
 
 
 %package -n airtime-icecast
