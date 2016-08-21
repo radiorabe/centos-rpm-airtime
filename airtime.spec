@@ -9,7 +9,8 @@ Source0:        https://github.com/radiorabe/airtime/archive/2.5.x.zip
 Source1:        airtime-media-monitor.service
 Patch0:         media-monitor-centos-setup.patch
 Patch1:         media-monitor-log-json-to-stdout.patch
-Patch2:         pypo-centos-setup.patch
+Patch2:         media-monitor-fix-loading-files-with-encoded-filenames.patch
+Patch3:         pypo-centos-setup.patch
 
 BuildRequires: python-setuptools
 BuildRequires: python-pip
@@ -37,6 +38,7 @@ of Sourcefabric's Airtime Software.
 %patch0 -p 1
 %patch1 -p 1
 %patch2 -p 1
+%patch3 -p 1
 
 %build
 ls -al
