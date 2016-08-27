@@ -49,7 +49,6 @@ rm -rf $RPM_BUILD_ROOT
 
 # Install system directories
 install -d %{buildroot}/%{_sysconfdir}/%{name}
-install -d %{buildroot}/%{_sharedstatedir}/%{name}-pypo
 install -d %{buildroot}/%{_exec_prefix}/lib/systemd/system/
 
 # install airtime-web parts in the right location for the scl httpd24 package
@@ -254,13 +253,12 @@ Python Play-Out for airtime calls liquidsoap as defined in airtime.
 %pre -n airtime-pypo
 getent group airtime-pypo >/dev/null || groupadd -r airtime-pypo
 getent passwd airtime-pypo >/dev/null || \
-    useradd -r -g airtime-pypo -d /var/lib/airtime-pypo  -m \
-    -c "Airtime pypo system user account" airtime-pypo
+    useradd -r -g airtime-pypo -d /dev/null \
+    -c "Airtime pypo playout server" airtime-pypo
 exit 0
 
 
 %files -n airtime-pypo
-%dir %attr(-, airtime-pypo, airtime-pypo) %{_sharedstatedir}/%{name}-pypo
 /usr/lib/systemd/system/airtime-pypo.service
 /usr/lib64/python2.7/site-packages/airtime_playout-1.0-py2.7.egg
 /usr/bin/airtime-liquidsoap
