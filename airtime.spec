@@ -257,6 +257,7 @@ exit 0
 
 %files -n airtime-pypo
 %dir %attr(-, airtime-pypo, airtime-pypo) %{_sharedstatedir}/%{name}-pypo
+/usr/lib/systemd/system/airtime-pypo.service
 /usr/lib64/python2.7/site-packages/airtime_playout-1.0-py2.7.egg
 /usr/bin/airtime-liquidsoap
 /usr/bin/airtime-playout
