@@ -7,6 +7,7 @@ License:        AGPL
 URL:            https://github.com/radiorabe/airtime
 Source0:        https://github.com/radiorabe/airtime/archive/2.5.x.zip
 Source1:        airtime-media-monitor.service
+Source2:        airtime-pypo.service
 Patch0:         media-monitor-centos-setup.patch
 Patch1:         media-monitor-log-json-to-stdout.patch
 Patch2:         media-monitor-fix-loading-files-with-encoded-filenames.patch
@@ -49,6 +50,7 @@ rm -rf $RPM_BUILD_ROOT
 # Install system directories
 install -d %{buildroot}/%{_sharedstatedir}/%{name}-media-monitor
 install -d %{buildroot}/%{_sharedstatedir}/%{name}-pypo
+install -d %{buildroot}/%{_exec_prefix}/lib/systemd/system/
 
 # install airtime-web parts in the right location for the scl httpd24 package
 mkdir -p $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/
@@ -84,9 +86,7 @@ python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PY
 mkdir -p $RPM_BUILD_ROOT/${_prefix}etc/airtime/
 cp install/media_monitor_logging.cfg $RPM_BUILD_ROOT/${_prefix}etc/airtime/media_monitor_logging.cfg
 popd
-mkdir -p $RPM_BUILD_ROOT/${_prefix}usr/lib/systemd/system/
-cp %{SOURCE1} $RPM_BUILD_ROOT/${_prefix}usr/lib/systemd/system/airtime-media-monitor.service
-
+install %{SOURCE1} %{buildroot}/%{_exec_prefix}/lib/systemd/system/
 
 # install std_err_override module
 pushd python_apps/std_err_override/
@@ -107,6 +107,7 @@ pushd python_apps/pypo/
 python setup.py build
 python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PYTHONPATH
 popd
+install %{SOURCE2} %{buildroot}/%{_exec_prefix}/lib/systemd/system/
 
 # install icecast xsl
 pushd python_apps/icecast2
