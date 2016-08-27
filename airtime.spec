@@ -48,7 +48,6 @@ ls -al
 rm -rf $RPM_BUILD_ROOT
 
 # Install system directories
-install -d %{buildroot}/%{_sharedstatedir}/%{name}-media-monitor
 install -d %{buildroot}/%{_sharedstatedir}/%{name}-pypo
 install -d %{buildroot}/%{_exec_prefix}/lib/systemd/system/
 
@@ -86,6 +85,7 @@ python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PY
 mkdir -p $RPM_BUILD_ROOT/${_prefix}etc/airtime/
 cp install/media_monitor_logging.cfg $RPM_BUILD_ROOT/${_prefix}etc/airtime/media_monitor_logging.cfg
 popd
+install -d %{buildroot}/%{_tmppath}/%{name}/media-monitor
 install %{SOURCE1} %{buildroot}/%{_exec_prefix}/lib/systemd/system/
 
 # install std_err_override module
@@ -190,13 +190,13 @@ airtime media-monitor imports uploaded files and watches directories
 %pre -n airtime-media-monitor
 getent group airtime-media-monitor >/dev/null || groupadd -r airtime-media-monitor
 getent passwd airtime-media-monitor >/dev/null || \
-    useradd -r -g airtime-media-monitor -d /var/lib/airtime-media-monitor  -m \
-    -c "Airtime media monitor system user account" airtime-media-monitor
+    useradd -r -g airtime-media-monitor -d /var/tmp/airtime/media-monitor -m \
+    -c "Airtime media monitor" airtime-media-monitor
 exit 0
 
 
 %files -n airtime-media-monitor
-%dir %attr(-, airtime-media-monitor, airtime-media-monitor) %{_sharedstatedir}/%{name}-media-monitor
+%dir %attr(-, airtime-media-monitor, airtime-media-monitor) %{_tmppath}/%{name}/media-monitor
 %config /etc/airtime/media_monitor_logging.cfg
 /usr/bin/airtime-media-monitor
 /usr/lib64/python2.7/site-packages/airtime_media_monitor*
