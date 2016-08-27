@@ -13,7 +13,6 @@ Patch2:         media-monitor-fix-loading-files-with-encoded-filenames.patch
 Patch3:         pypo-centos-setup.patch
 
 BuildRequires: python-setuptools
-BuildRequires: python-pip
 BuildRequires: pytz
 BuildRequires: python-mutagen
 BuildRequires: python-amqp
