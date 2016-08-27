@@ -125,7 +125,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc
+%doc README CREDITS LICENSE LICENSE_3RD_PARTY
 
 
 %changelog
