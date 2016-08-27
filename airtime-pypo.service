@@ -1,0 +1,10 @@
+[Unit]
+Description=Airtime Media-Monitor Service
+
+[Service]
+ExecStart=/usr/bin/airtime-playout
+User=airtime-pypo
+Group=airtime-pypo
+
+[Install]
+WantedBy=multi-user.target

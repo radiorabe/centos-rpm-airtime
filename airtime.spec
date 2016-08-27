@@ -46,9 +46,11 @@ ls -al
 %install
 rm -rf $RPM_BUILD_ROOT
 
-# install airtime-web parts so apache finds them
 # Install system directories
 install -d %{buildroot}/%{_sharedstatedir}/%{name}-media-monitor
+install -d %{buildroot}/%{_sharedstatedir}/%{name}-pypo
+
+# install airtime-web parts in the right location for the scl httpd24 package
 mkdir -p $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/
 cp -rp airtime_mvc/* $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/
 ls $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www
@@ -229,6 +231,7 @@ airtime python api client library
 /usr/lib64/python2.7/site-packages/api_clients*
 
 
+
 %package -n airtime-pypo
 Summary: radio rabe airtime pypo installation
 
@@ -238,14 +241,26 @@ Requires: python
 Requires: python-requests
 Requires: liquidsoap
 
+
 %description -n airtime-pypo
 Python Play-Out for airtime calls liquidsoap as defined in airtime.
 
+
+%pre -n airtime-pypo
+getent group airtime-pypo >/dev/null || groupadd -r airtime-pypo
+getent passwd airtime-pypo >/dev/null || \
+    useradd -r -g airtime-pypo -d /var/lib/airtime-pypo  -m \
+    -c "Airtime pypo system user account" airtime-pypo
+exit 0
+
+
 %files -n airtime-pypo
+%dir %attr(-, airtime-pypo, airtime-pypo) %{_sharedstatedir}/%{name}-pypo
 /usr/lib64/python2.7/site-packages/airtime_playout-1.0-py2.7.egg
 /usr/bin/airtime-liquidsoap
 /usr/bin/airtime-playout
 /usr/bin/pyponotify
+
 
 
 %package -n airtime-icecast
