@@ -47,6 +47,8 @@ ls -al
 rm -rf $RPM_BUILD_ROOT
 
 # install airtime-web parts so apache finds them
+# Install system directories
+install -d %{buildroot}/%{_sharedstatedir}/%{name}-media-monitor
 mkdir -p $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/
 cp -rp airtime_mvc/* $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/
 ls $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www
@@ -154,6 +156,8 @@ Installs the various utils neeeded by airtime to d stuff on the cli.
 /usr/sbin/airtime-import
 /usr/bin/airtime-test-*
 
+
+
 %package -n airtime-media-monitor
 Summary: radio rabe airtime media montitor installation
 
@@ -179,11 +183,22 @@ Requires: lsof
 %description -n airtime-media-monitor
 airtime media-monitor imports uploaded files and watches directories
 
+
+%pre -n airtime-media-monitor
+getent group airtime-media-monitor >/dev/null || groupadd -r airtime-media-monitor
+getent passwd airtime-media-monitor >/dev/null || \
+    useradd -r -g airtime-media-monitor -d /var/lib/airtime-media-monitor  -m \
+    -c "Airtime media monitor system user account" airtime-media-monitor
+exit 0
+
+
 %files -n airtime-media-monitor
+%dir %attr(-, airtime-media-monitor, airtime-media-monitor) %{_sharedstatedir}/%{name}-media-monitor
+%config /etc/airtime/media_monitor_logging.cfg
 /usr/bin/airtime-media-monitor
 /usr/lib64/python2.7/site-packages/airtime_media_monitor*
 /usr/lib/systemd/system/airtime-media-monitor.service
-%config/etc/airtime/media_monitor_logging.cfg
+
 
 
 %package -n airtime-std_err_override
