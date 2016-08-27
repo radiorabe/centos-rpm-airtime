@@ -200,10 +200,10 @@ exit 0
 
 %files -n airtime-media-monitor
 %dir %attr(-, airtime-media-monitor, airtime-media-monitor) %{_tmppath}/%{name}/media-monitor
-%config /etc/airtime/media_monitor_logging.cfg
-/usr/bin/airtime-media-monitor
-/usr/lib64/python2.7/site-packages/airtime_media_monitor*
-/usr/lib/systemd/system/airtime-media-monitor.service
+%config /etc/%{name}/media_monitor_logging.cfg
+%{_exec_prefix}/lib/systemd/system/airtime-media-monitor.service
+%{_bindir}/airtime-media-monitor
+%{_libdir}/python2.7/site-packages/airtime_media_monitor*
 
 
 
@@ -259,11 +259,11 @@ exit 0
 
 
 %files -n airtime-pypo
-/usr/lib/systemd/system/airtime-pypo.service
-/usr/lib64/python2.7/site-packages/airtime_playout-1.0-py2.7.egg
-/usr/bin/airtime-liquidsoap
-/usr/bin/airtime-playout
-/usr/bin/pyponotify
+%{_exec_prefix}/lib/systemd/system/airtime-pypo.service
+%{_libdir}/python2.7/site-packages/airtime_playout-1.0-py2.7.egg
+%{_bindir}/airtime-liquidsoap
+%{_bindir}/airtime-playout
+%{_bindir}/pyponotify
 
 
 
