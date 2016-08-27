@@ -48,6 +48,7 @@ ls -al
 rm -rf $RPM_BUILD_ROOT
 
 # Install system directories
+install -d %{buildroot}/%{_sysconfdir}/%{name}
 install -d %{buildroot}/%{_sharedstatedir}/%{name}-pypo
 install -d %{buildroot}/%{_exec_prefix}/lib/systemd/system/
 
@@ -127,6 +128,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %doc README CREDITS LICENSE LICENSE_3RD_PARTY
+%dir %{_sysconfdir}/%{name}
+%dir %{_tmppath}/%{name}
 
 
 %changelog
@@ -166,6 +169,7 @@ Summary: radio rabe airtime media montitor installation
 
 AutoReqProv: no
 
+Requires: %{name} = %{version}-%{release}
 Requires: python
 Requires: pytz
 Requires: python-mutagen
