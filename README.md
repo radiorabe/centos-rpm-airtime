@@ -6,6 +6,13 @@ This repository contains the specfile for airtime which is part of the [obs buil
 ## Usage
 
 ```bash
-curl -o /etc/yum.repos.d/airtime.repo http://download.opensuse.org/repositories/home:/radiorabe:/airtime/CentOS_7/home:radiorabe:airtime.repo
+# install dependencies
+yum install epel-release centos-release-scl
+yum install http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+curl -o /etc/yum.repos.d/liquidsoap.repo \
+  http://download.opensuse.org/repositories/home:/radiorabe:/liquidsoap/CentOS_7/home:radiorabe:liquidsoap.repo
+# install airtime repo
+curl -o /etc/yum.repos.d/airtime.repo \
+  http://download.opensuse.org/repositories/home:/radiorabe:/airtime/CentOS_7/home:radiorabe:airtime.repo
 yum install airtime-*
 ```
