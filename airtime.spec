@@ -253,8 +253,8 @@ Requires: python-mutagen
 Requires: python-kombu
 Requires: python-amqplib
 Requires: python-vine
-Requires: python-api_client
-Requires: python-std_err_override
+Requires: airtime-api_client
+Requires: airtime-std_err_override
 
 
 %description -n airtime-pypo
