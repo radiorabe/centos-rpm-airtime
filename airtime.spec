@@ -244,6 +244,17 @@ AutoReqProv: no
 Requires: python
 Requires: python-requests
 Requires: liquidsoap
+Requires: python-setuptools
+Requires: pytz
+Requires: python-inotify
+Requires: python2-pydispatcher
+Requires: python-poster
+Requires: python-mutagen
+Requires: python-kombu
+Requires: python-amqplib
+Requires: python-vine
+Requires: python-api_client
+Requires: python-std_err_override
 
 
 %description -n airtime-pypo
