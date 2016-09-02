@@ -1,5 +1,5 @@
 [Unit]
-Description=Airtime Media-Monitor Service
+Description=Airtime Playout Service
 
 [Service]
 ExecStart=/usr/bin/airtime-playout
