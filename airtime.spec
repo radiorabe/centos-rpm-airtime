@@ -56,11 +56,12 @@ mkdir -p $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/
 cp -rp airtime_mvc/* $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/
 ls $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www
 mv $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/public $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/html
-install -d %{buildroot}/etc/opt/rh/rh-php56/php.d/
 # configure zend config dep into scl php
+install -d %{buildroot}/etc/opt/rh/rh-php56/php.d/
 echo '[main]' > %{buildroot}/etc/opt/rh/rh-php56/php.d/99-zendframework.ini
 echo 'include_path=.:/opt/rh/rh-php56/root/usr/share/pear:/opt/rh/rh-php56/root/usr/share/php:/usr/share/php' >> %{buildroot}/etc/opt/rh/rh-php56/php.d/99-zendframework.ini
 # setup apache
+install -d %{buildroot}/opt/rh/httpd24/root/etc/httpd/conf.d/airtime-fallback.conf
 cat << EOF > %{buildroot}/opt/rh/httpd24/root/etc/httpd/conf.d/airtime-fallback.conf
 <Directory "/opt/rh/httpd24/root/var/www/html/">
     FallbackResource /index.php
