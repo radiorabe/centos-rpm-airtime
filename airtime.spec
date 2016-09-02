@@ -234,7 +234,7 @@ exit 0
 %files -n airtime-media-monitor
 %dir %attr(-, airtime-media-monitor, airtime-media-monitor) %{_tmppath}/%{name}/media-monitor
 %config /etc/%{name}/media_monitor_logging.cfg
-%attr{550, -, -} %{_exec_prefix}/lib/systemd/system/airtime-media-monitor.service
+%attr(550, -, -) %{_exec_prefix}/lib/systemd/system/airtime-media-monitor.service
 %{_bindir}/airtime-media-monitor
 %{_libdir}/python2.7/site-packages/airtime_media_monitor*
 
@@ -303,7 +303,7 @@ exit 0
 
 
 %files -n airtime-pypo
-%attr{550, -, -} %{_exec_prefix}/lib/systemd/system/airtime-pypo.service
+%attr(550, -, -) %{_exec_prefix}/lib/systemd/system/airtime-pypo.service
 %{_libdir}/python2.7/site-packages/airtime_playout-1.0-py2.7.egg
 %{_bindir}/airtime-liquidsoap
 %{_bindir}/airtime-playout
