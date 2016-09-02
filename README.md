@@ -82,6 +82,9 @@ chcon -R -t httpd_sys_rw_content_t /srv/airtime/
 chcon -R -t httpd_sys_rw_content_t /var/log/airtime/
 chown -R apache /etc/airtime/ /srv/airtime/ /var/log/airtime/
 
+echo '[main]' > /etc/opt/rh/rh-php56/php.d/99-tz.ini
+echo 'date.timezone=Europe/Zurich' >> /etc/opt/rh/rh-php56/php.d/99-tz.ini
+
 systemctl enable httpd24-httpd
 systemctl start httpd24-httpd
 
