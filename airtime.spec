@@ -162,7 +162,7 @@ Summary: radio rabe airtime web interface installation
 Requires: rh-php56
 Requires: rh-php56-php
 Requires: rh-php56-php-pdo
-Requires: rh-php56-php-pgsq
+Requires: rh-php56-php-pgsql
 Requires: rh-php56-php-bcmath
 Requires: rh-php56-php-mbstring
 Requires: rh-php56-php-fpm
@@ -286,7 +286,7 @@ Requires: python-mutagen
 Requires: python-kombu
 Requires: python-amqplib
 Requires: python-vine
-Requires: airtime-api_client
+Requires: airtime-api_clients
 Requires: airtime-std_err_override
 
 
