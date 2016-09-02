@@ -25,7 +25,9 @@ curl -o /etc/yum.repos.d/airtime.repo \
 
 ```bash
 yum install postgresql-server
+
 postgresql-setup initdb
+
 patch /var/lib/pgsql/data/pg_hba.conf << EOD
 --- /var/lib/pgsql/data/pg_hba.conf.orig2016-09-01 20:45:11.364000000 -0400
 +++ /var/lib/pgsql/data/pg_hba.conf2016-09-01 20:46:17.939000000 -0400
@@ -45,6 +47,9 @@ patch /var/lib/pgsql/data/pg_hba.conf << EOD
  #local   replication     postgres                                peer
 EOD
 
+systemctl enable postgresql
+systemctl start postgresql
+
 # create database user airtime with password airtime
 useradd airtime
 echo "airtime:airtime" | chpasswd
@@ -54,14 +59,11 @@ su -l postgres bash -c 'createdb -O airtime airtime'
 
 echo "ALTER USER airtime WITH PASSWORD 'airtime';" | su -l postgres bash -c psql
 echo "GRANT ALL PRIVILEGES ON DATABASE airtime TO airtime;" | su -l postgres bash -c psql
-
-systemctl enable postgresql
-systemctl start postgresql
 ```
 
 ### RabbitMQ Setup
 
-```
+```bash
 yum install https://github.com/rabbitmq/rabbitmq-server/releases/download/rabbitmq_v3_6_5/rabbitmq-server-3.6.5-1.noarch.rpm
 
 systemctl enable rabbitmq-server
