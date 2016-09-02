@@ -91,3 +91,15 @@ systemctl start httpd24-httpd
 firewall-cmd --zone=public --add-port=80/tcp --permanent
 firewall-cmd --reload
 ```
+
+### Airtime Media-Monitor
+
+```bash
+yum intall airtime-media-monitor
+
+mkdir /srv/airtime/stor/{problem_files,organize}
+chown airtime-media-monitor /srv/airtime/stor/{problem_files,organize}
+
+systemctl enable airtime-media-monitor
+systemctl start airtime-media-monitor
+```
