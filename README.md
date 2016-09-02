@@ -5,6 +5,9 @@ This repository contains the specfile for airtime which is part of the [obs buil
 
 ## Quickstart
 
+The following instructions show how to get up and running quickly. To deploy these packages on production you will have to review
+the default policies of the packages and adapt them to your organizations policies.
+
 ### Install repositories
 
 ```bash
