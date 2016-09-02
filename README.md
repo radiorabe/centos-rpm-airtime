@@ -102,8 +102,9 @@ firewall-cmd --reload
 ```bash
 yum intall airtime-media-monitor
 
-mkdir /srv/airtime/stor/{problem_files,organize}
-chown airtime-media-monitor /srv/airtime/stor/{problem_files,organize}
+mkdir /srv/airtime/stor/{problem_files,organize,imported}
+chown airtime-media-monitor:apache /srv/airtime/stor/{problem_files,organize,imported}
+chmod g+w /srv/airtime/stor/{problem_files,organize,imported}
 
 systemctl enable airtime-media-monitor
 systemctl start airtime-media-monitor
