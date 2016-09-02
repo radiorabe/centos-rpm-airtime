@@ -76,11 +76,12 @@ yum install airtime-web
 
 setsebool -P httpd_can_network_connect 1
 
-mkdir /etc/airtime /srv/airtime /var/log/airtime/
+mkdir /etc/airtime /srv/airtime /var/log/airtime/ /tmp/plupload
 chcon -R -t httpd_sys_rw_content_t /etc/airtime/
 chcon -R -t httpd_sys_rw_content_t /srv/airtime/
 chcon -R -t httpd_sys_rw_content_t /var/log/airtime/
-chown -R apache /etc/airtime/ /srv/airtime/ /var/log/airtime/
+chcon -R -t httpd_sys_rw_content_t /tmp/plupload
+chown -R apache /etc/airtime/ /srv/airtime/ /var/log/airtime/ /tmp/plupload
 
 echo '[main]' > /etc/opt/rh/rh-php56/php.d/99-tz.ini
 echo 'date.timezone=Europe/Zurich' >> /etc/opt/rh/rh-php56/php.d/99-tz.ini
