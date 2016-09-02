@@ -97,6 +97,24 @@ firewall-cmd --zone=public --add-port=80/tcp --permanent
 firewall-cmd --reload
 ```
 
+### Airtime Icecast
+
+```bash
+# TBD
+```
+
+### Airtime Playout
+
+```bash
+# TBD
+```
+
+### Airtime Liquidsoap
+
+```bash
+# TBD
+```
+
 ### Airtime Media-Monitor
 
 ```bash
