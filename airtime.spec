@@ -57,11 +57,11 @@ cp -rp airtime_mvc/* $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/
 ls $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www
 mv $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/public $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/html
 # configure zend config dep into scl php
-install -d %{buildroot}/etc/opt/rh/rh-php56/php.d/
+install -d %{buildroot}/etc/opt/rh/rh-php56/php.d
 echo '[main]' > %{buildroot}/etc/opt/rh/rh-php56/php.d/99-zendframework.ini
 echo 'include_path=.:/opt/rh/rh-php56/root/usr/share/pear:/opt/rh/rh-php56/root/usr/share/php:/usr/share/php' >> %{buildroot}/etc/opt/rh/rh-php56/php.d/99-zendframework.ini
 # setup apache
-install -d %{buildroot}/opt/rh/httpd24/root/etc/httpd/conf.d/airtime-fallback.conf
+install -d %{buildroot}/opt/rh/httpd24/root/etc/httpd/conf.d
 cat << EOF > %{buildroot}/opt/rh/httpd24/root/etc/httpd/conf.d/airtime-fallback.conf
 <Directory "/opt/rh/httpd24/root/var/www/html/">
     FallbackResource /index.php
@@ -223,7 +223,7 @@ exit 0
 %files -n airtime-media-monitor
 %dir %attr(-, airtime-media-monitor, airtime-media-monitor) %{_tmppath}/%{name}/media-monitor
 %config /etc/%{name}/media_monitor_logging.cfg
-%{_exec_prefix}/lib/systemd/system/airtime-media-monitor.service
+%attr{550, -, -} %{_exec_prefix}/lib/systemd/system/airtime-media-monitor.service
 %{_bindir}/airtime-media-monitor
 %{_libdir}/python2.7/site-packages/airtime_media_monitor*
 
@@ -292,7 +292,7 @@ exit 0
 
 
 %files -n airtime-pypo
-%{_exec_prefix}/lib/systemd/system/airtime-pypo.service
+%attr{550, -, -} %{_exec_prefix}/lib/systemd/system/airtime-pypo.service
 %{_libdir}/python2.7/site-packages/airtime_playout-1.0-py2.7.egg
 %{_bindir}/airtime-liquidsoap
 %{_bindir}/airtime-playout
