@@ -143,6 +143,8 @@ Requires: rh-php56-php-pgsq
 Requires: rh-php56-php-bcmath
 Requires: rh-php56-php-mbstring
 Requires: rh-php56-php-fpm
+# This will also pull a system php 5.4, we are ignoring that and using the scl php 5.6
+Requires: php-ZendFramework-full
 Requires: httpd24-httpd
 Requires: liquidsoap
 
