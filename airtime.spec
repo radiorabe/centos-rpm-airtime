@@ -58,16 +58,19 @@ ls $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www
 mv $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/public $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/html
 # configure zend config dep into scl php
 install -d %{buildroot}/etc/opt/rh/rh-php56/php.d
-cat << EOF > %{buildroot}/etc/opt/rh/rh-php56/php.d/99-zendframework.ini
+cat << EOF > %{buildroot}/etc/opt/rh/rh-php56/php.d/50-zendframework.ini
 [main]
 include_path=.:/opt/rh/rh-php56/root/usr/share/pear:/opt/rh/rh-php56/root/usr/share/php:/usr/share/php
 EOF
-cat << EOF > %{buildroot}/etc/opt/rh/rh-php56/php.d/99-upload_tmp_dir.ini
+cat << EOF > %{buildroot}/etc/opt/rh/rh-php56/php.d/50-upload_tmp_dir.ini
 [main]
 upload_tmp_dir=/tmp
 EOF
+cat << EOF > %{buildroot}/etc/opt/rh/rh-php56/php.d/50-upload_max_filesize.ini
+upload_max_filesize=20M
+post_max_size=20M
+EOF
 
-upload_tmp_dir
 # setup apache
 install -d %{buildroot}/opt/rh/httpd24/root/etc/httpd/conf.d
 cat << EOF > %{buildroot}/opt/rh/httpd24/root/etc/httpd/conf.d/airtime-fallback.conf
@@ -174,7 +177,7 @@ Installs the airtime web interface into http24/php56 using fpm.
 %files -n airtime-web
 /opt/rh/httpd24/root/var/www/
 %config /opt/rh/httpd24/root/var/www/application/configs/application.ini
-%config /etc/opt/rh/rh-php56/php.d/99-zendframework.ini
+%config /etc/opt/rh/rh-php56/php.d/*.ini
 %config /opt/rh/httpd24/root/etc/httpd/conf.d/airtime-fallback.conf
 
 %package -n airtime-utils
