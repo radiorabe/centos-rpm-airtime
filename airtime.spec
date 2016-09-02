@@ -12,6 +12,7 @@ Patch0:         media-monitor-centos-setup.patch
 Patch1:         media-monitor-log-json-to-stdout.patch
 Patch2:         media-monitor-fix-loading-files-with-encoded-filenames.patch
 Patch3:         pypo-centos-setup.patch
+Patch4:         liquidsoap-log-to-stdout.patch
 
 BuildRequires: python-setuptools
 BuildRequires: pytz
@@ -39,6 +40,7 @@ of Sourcefabric's Airtime Software.
 %patch1 -p 1
 %patch2 -p 1
 %patch3 -p 1
+%patch4 -p 1
 
 %build
 ls -al
