@@ -56,6 +56,17 @@ mkdir -p $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/
 cp -rp airtime_mvc/* $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/
 ls $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www
 mv $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/public $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/html
+install -d %{buildroot}/etc/opt/rh/rh-php56/php.d/
+# configure zend config dep into scl php
+echo '[main]' > %{buildroot}/etc/opt/rh/rh-php56/php.d/99-zendframework.ini
+echo 'include_path=.:/opt/rh/rh-php56/root/usr/share/pear:/opt/rh/rh-php56/root/usr/share/php:/usr/share/php' >> %{buildroot}/etc/opt/rh/rh-php56/php.d/99-zendframework.ini
+# setup apache
+cat << EOF > %{buildroot}/opt/rh/httpd24/root/etc/httpd/conf.d/airtime-fallback.conf
+<Directory "/opt/rh/httpd24/root/var/www/html/">
+    FallbackResource /index.php
+</Directory>
+EOF
+
 
 # install airtime-utils so they can be called by a user
 
@@ -154,6 +165,8 @@ Installs the airtime web interface into http24/php56 using fpm.
 %files -n airtime-web
 /opt/rh/httpd24/root/var/www/
 %config /opt/rh/httpd24/root/var/www/application/configs/application.ini
+%config /etc/opt/rh/rh-php56/php.d/99-zendframework.ini
+%config /opt/rh/httpd24/root/etc/httpd/conf.d/airtime-fallback.conf
 
 %package -n airtime-utils
 Summary: radio rabe airtime utils installation
