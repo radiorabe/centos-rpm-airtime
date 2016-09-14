@@ -1,0 +1,14 @@
+diff --git a/airtime_mvc/application/models/StoredFile.php b/airtime_mvc/application/models/StoredFile.php
+index 2845b7a..2d40bbc 100644
+--- a/airtime_mvc/application/models/StoredFile.php
++++ b/airtime_mvc/application/models/StoredFile.php
+@@ -1080,7 +1080,8 @@ SQL;
+ 
+         // Ask Liquidsoap if file is playable
+         /* CC-5990/5991 - Changed to point directly to liquidsoap, removed PATH export */
+-        $command = sprintf('liquidsoap -v -c "output.dummy(audio_to_stereo(single(%s)))" 2>&1',
++        // RaBe: make it log through systemd (risking that the taglib error from above does not get caught at this stage anymore :/)
++        $command = sprintf('systemd-cat -t liquidsoap liquidsoap -v -c "output.dummy(audio_to_stereo(single(%s)))"',
+             escapeshellarg($audio_file));
+ 
+         exec($command, $output, $rv);
