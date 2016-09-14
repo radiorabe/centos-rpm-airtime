@@ -11,9 +11,10 @@ Source2:        airtime-pypo.service
 Patch0:         media-monitor-centos-setup.patch
 Patch1:         media-monitor-log-json-to-stdout.patch
 Patch2:         media-monitor-fix-loading-files-with-encoded-filenames.patch
-Patch3:         pypo-centos-setup.patch
-Patch4:         liquidsoap-log-to-stdout.patch
-Patch5:         airtime_mvc-liquidsoap-log.patch
+Patch3:         media-monitor-no-chmod.patch
+Patch4:         pypo-centos-setup.patch
+Patch5:         liquidsoap-log-to-stdout.patch
+Patch6:         airtime_mvc-liquidsoap-log.patch
 
 BuildRequires: python-setuptools
 BuildRequires: pytz
@@ -43,6 +44,7 @@ of Sourcefabric's Airtime Software.
 %patch3 -p 1
 %patch4 -p 1
 %patch5 -p 1
+%patch6 -p 1
 
 %build
 ls -al
