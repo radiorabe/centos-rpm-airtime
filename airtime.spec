@@ -57,30 +57,26 @@ rm -rf $RPM_BUILD_ROOT
 install -d %{buildroot}/%{_sysconfdir}/%{name}
 install -d %{buildroot}/%{_exec_prefix}/lib/systemd/system/
 
-# install airtime-web parts in the right location for the scl httpd24 package
-mkdir -p $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/
-cp -rp airtime_mvc/* $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/
-ls $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www
-mv $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/public $RPM_BUILD_ROOT/opt/rh/httpd24/root/var/www/html
+# install airtime-web parts in the right location for the httpd package
+mkdir -p $RPM_BUILD_ROOT/var/www/
+cp -rp airtime_mvc/* $RPM_BUILD_ROOT/var/www/
+ls $RPM_BUILD_ROOT/var/www
+mv $RPM_BUILD_ROOT/var/www/public $RPM_BUILD_ROOT/var/www/html
 # configure zend config dep into scl php
-install -d %{buildroot}/etc/opt/rh/rh-php56/php.d
-cat << EOF > %{buildroot}/etc/opt/rh/rh-php56/php.d/50-zendframework.ini
-[main]
-include_path=.:/opt/rh/rh-php56/root/usr/share/pear:/opt/rh/rh-php56/root/usr/share/php:/usr/share/php
-EOF
-cat << EOF > %{buildroot}/etc/opt/rh/rh-php56/php.d/50-upload_tmp_dir.ini
+install -d %{buildroot}/etc/php.d
+cat << EOF > %{buildroot}/etc/php.d/50-upload_tmp_dir.ini
 [main]
 upload_tmp_dir=/tmp
 EOF
-cat << EOF > %{buildroot}/etc/opt/rh/rh-php56/php.d/50-upload_max_filesize.ini
+cat << EOF > %{buildroot}/etc/php.d/50-upload_max_filesize.ini
 upload_max_filesize=20M
 post_max_size=20M
 EOF
 
 # setup apache
-install -d %{buildroot}/opt/rh/httpd24/root/etc/httpd/conf.d
-cat << EOF > %{buildroot}/opt/rh/httpd24/root/etc/httpd/conf.d/airtime-fallback.conf
-<Directory "/opt/rh/httpd24/root/var/www/html/">
+install -d %{buildroot}/etc/httpd/conf.d
+cat << EOF > %{buildroot}/etc/httpd/conf.d/airtime-fallback.conf
+<Directory "/var/www/html/">
     FallbackResource /index.php
 </Directory>
 EOF
@@ -165,26 +161,24 @@ rm -rf $RPM_BUILD_ROOT
 %package -n airtime-web
 Summary: radio rabe airtime web interface installation
 
-Requires: rh-php56
-Requires: rh-php56-php
-Requires: rh-php56-php-pdo
-Requires: rh-php56-php-pgsql
-Requires: rh-php56-php-bcmath
-Requires: rh-php56-php-mbstring
-Requires: rh-php56-php-fpm
-# This will also pull a system php 5.4, we are ignoring that and using the scl php 5.6
+Requires: php
+Requires: php-pdo
+Requires: php-pgsql
+Requires: php-bcmath
+Requires: php-mbstring
+Requires: php-fpm
 Requires: php-ZendFramework-full
-Requires: httpd24-httpd
+Requires: httpd
 Requires: liquidsoap
 
 %description -n airtime-web
 Installs the airtime web interface into http24/php56 using fpm.
 
 %files -n airtime-web
-/opt/rh/httpd24/root/var/www/
-%config /opt/rh/httpd24/root/var/www/application/configs/application.ini
-%config /etc/opt/rh/rh-php56/php.d/*.ini
-%config /opt/rh/httpd24/root/etc/httpd/conf.d/airtime-fallback.conf
+/var/www/
+%config /var/www/application/configs/application.ini
+%config /etc/php.d/*.ini
+%config /etc/httpd/conf.d/airtime-fallback.conf
 
 %package -n airtime-utils
 Summary: radio rabe airtime utils installation
