@@ -89,11 +89,13 @@ chcon -R -t httpd_sys_rw_content_t /var/log/airtime/
 chcon -R -t httpd_sys_rw_content_t /tmp/plupload
 chown -R apache /etc/airtime/ /srv/airtime/ /var/log/airtime/ /tmp/plupload
 
-echo '[main]' > /etc/opt/rh/rh-php56/php.d/99-tz.ini
-echo 'date.timezone=Europe/Zurich' >> /etc/opt/rh/rh-php56/php.d/99-tz.ini
+cat > /etc/php.d/99-tz.ini <<EOD
+[main]
+date.timezone=Europe/Zurich
+EOD
 
-systemctl enable httpd24-httpd
-systemctl start httpd24-httpd
+systemctl enable httpd
+systemctl start httpd
 
 firewall-cmd --zone=public --add-port=80/tcp --permanent
 firewall-cmd --reload
