@@ -1,0 +1,143 @@
+diff --git a/airtime_mvc/application/controllers/LoginController.php b/airtime_mvc/application/controllers/LoginController.php
+index c808c2a..fd05758 100644
+--- a/airtime_mvc/application/controllers/LoginController.php
++++ b/airtime_mvc/application/controllers/LoginController.php
+@@ -20,6 +20,41 @@ class LoginController extends Zend_Controller_Action
+         if ($auth->hasIdentity()) {
+             $this->_redirect('Showbuilder');
+         }
++        $ipaUser = false;
++        $remoteUser = NULL;
++        $ipaDummyPass = NULL;
++        if (array_key_exists('REDIRECT_REMOTE_USER', $_SERVER)) {
++            $remoteUser = $_SERVER['REDIRECT_REMOTE_USER'];
++            if ($remoteUser !== 'admin') {
++                $ipaUser = true;
++
++                // figure out if user already exists in database
++                $remoteUsers = CcSubjsQuery::create()->findByDbLogin($remoteUser);
++                $remoteUserId = null;
++                foreach ($remoteUsers as $remoteUserObj) {
++                    $remoteUserId = $remoteUserObj->getDBId();
++                }
++                $ipaDummyPass = bin2hex(openssl_random_pseudo_bytes(10));
++                // create a new user or grab an existing one
++                if ($remoteUserId) {
++                    $user = new Application_Model_User($remoteUserId);
++                } else {
++                    $user = new Application_Model_User('');
++                }
++                // Add info from IPA to user
++                $user->setLogin($remoteUser);
++                $user->setType('A');
++                // Use a random password for IPA users, reset on each login... I may change this to get set to the IPA pass but hate that it is being stored as md5 behind the scenes
++                $user->setPassword($ipaDummyPass);
++                //$user->setFirstName('Airtime');
++                //$user->setLastName('User');
++                //$user->setEmail('test@int.rabe.ch');
++                //$user->setCellPhone('');
++                //$user->setSkype('');
++                //$user->setJabber('');
++                $user->save();
++            }
++        }
+ 
+         //uses separate layout without a navigation.
+         $this->_helper->layout->setLayout('login');
+@@ -40,12 +75,16 @@ class LoginController extends Zend_Controller_Action
+             if (array_key_exists('recaptcha_response_field', $request->getPost())) {
+                 $form->addRecaptcha();
+             }
+-            if ($form->isValid($request->getPost())) {
++            if ($form->isValid($request->getPost()) || $ipaUser) {
+                 //get the username and password from the form
+                 $username = $form->getValue('username');
+                 $password = $form->getValue('password');
+                 $locale = $form->getValue('locale');
+-                if (Application_Model_Subjects::getLoginAttempts($username) >= 3 && $form->getElement('captcha') == NULL) {
++                if ($ipaUser) {
++                    $username = $remoteUser;
++                    $password = $ipaDummyPass;
++                }
++                if (!$ipaUser || Application_Model_Subjects::getLoginAttempts($username) >= 3 && $form->getElement('captcha') == NULL) {
+                     $form->addRecaptcha();
+                 } else {
+                     $authAdapter = Application_Model_Auth::getAuthAdapter();
+@@ -55,7 +94,7 @@ class LoginController extends Zend_Controller_Action
+                                 ->setCredential($password);
+                     
+                     $result = $auth->authenticate($authAdapter);
+-                    if ($result->isValid()) {
++                    if ($ipaUser || $result->isValid()) {
+                         //  Regenerate session id on login to prevent session fixation.
+                         Zend_Session::regenerateId();
+                         //all info about this user from the login table omit only the password
+diff --git a/airtime_mvc/application/models/Preference.php b/airtime_mvc/application/models/Preference.php
+index 3f9f145..e67bb00 100644
+--- a/airtime_mvc/application/models/Preference.php
++++ b/airtime_mvc/application/models/Preference.php
+@@ -7,9 +7,20 @@ class Application_Model_Preference
+     
+     private static function getUserId()
+     {
++        $ipaUser = array_key_exists('REDIRECT_REMOTE_USER', $_SERVER);
++        // let freshly authed ipa users set a password
++        if ($ipaUser) {
++            // figure out if user already exists in database
++            $remoteUser = $_SERVER['REDIRECT_REMOTE_USER'];
++            $remoteUsers = CcSubjsQuery::create()->findByDbLogin($remoteUser);
++            $remoteUserId = null;
++            foreach ($remoteUsers as $remoteUserObj) {
++                $remoteUserId = $remoteUserObj->getDBId();
++            }
++            $userId = $remoteUserId;
+         //pass in true so the check is made with the autoloader
+         //we need this check because saas calls this function from outside Zend
+-        if (!class_exists("Zend_Auth", true) || !Zend_Auth::getInstance()->hasIdentity()) {
++        } elseif (!class_exists("Zend_Auth", true) || !Zend_Auth::getInstance()->hasIdentity()) {
+             $userId = null;
+         } else {
+             $auth = Zend_Auth::getInstance();
+@@ -25,8 +36,6 @@ class Application_Model_Preference
+      */
+     private static function setValue($key, $value, $isUserValue = false)
+     {
+-        $cache = new Cache();
+-        
+         try {
+             
+             $con = Propel::getConnection(CcPrefPeer::DATABASE_NAME);
+@@ -108,14 +117,10 @@ class Application_Model_Preference
+             Logging::info("Database error: ".$e->getMessage());
+             exit;
+         }
+-
+-        $cache->store($key, $value, $isUserValue, $userId);
+     }
+ 
+     private static function getValue($key, $isUserValue = false)
+     {
+-        $cache = new Cache();
+-        
+         try {
+             
+             $userId = self::getUserId();
+@@ -123,10 +128,6 @@ class Application_Model_Preference
+             if ($isUserValue && is_null($userId))
+                 throw new Exception("User id can't be null for a user preference.");
+ 
+-            // If the value is already cached, return it
+-            $res = $cache->fetch($key, $isUserValue, $userId);
+-            if ($res !== false) return $res;
+-           
+             //Check if key already exists
+             $sql = "SELECT COUNT(*) FROM cc_pref"
+             ." WHERE keystr = :key";
+@@ -163,7 +164,6 @@ class Application_Model_Preference
+                 $res = ($result !== false) ? $result : "";
+             }
+             
+-            $cache->store($key, $res, $isUserValue, $userId);
+             return $res;
+         } 
+         catch (Exception $e) {
