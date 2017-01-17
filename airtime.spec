@@ -16,6 +16,7 @@ Patch4:         pypo-centos-setup.patch
 Patch5:         liquidsoap-log-to-stdout.patch
 Patch6:         airtime_mvc-liquidsoap-log.patch
 Patch7:         airtime_mvc-ipa-auth.patch
+Patch8:         api_client-tls-support.patch
 
 BuildRequires: python-setuptools
 BuildRequires: pytz
@@ -47,6 +48,7 @@ of Sourcefabric's Airtime Software.
 %patch5 -p 1
 %patch6 -p 1
 %patch7 -p 1
+%patch8 -p 1
 
 %build
 ls -al
