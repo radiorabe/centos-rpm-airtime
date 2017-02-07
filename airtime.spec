@@ -8,6 +8,8 @@ URL:            https://github.com/radiorabe/airtime
 Source0:        https://github.com/radiorabe/airtime/archive/2.5.x.zip
 Source1:        airtime-media-monitor.service
 Source2:        airtime-pypo.service
+Source3:        airtime-silan.service
+Source4:        airtime-silan.timer
 Patch0:         media-monitor-centos-setup.patch
 Patch1:         media-monitor-log-json-to-stdout.patch
 Patch2:         media-monitor-fix-loading-files-with-encoded-filenames.patch
@@ -17,6 +19,7 @@ Patch5:         liquidsoap-log-to-stdout.patch
 Patch6:         airtime_mvc-liquidsoap-log.patch
 Patch7:         airtime_mvc-ipa-auth.patch
 Patch8:         api_client-tls-support.patch
+Patch9:         airtime-silan-command-popen-bug.patch
 
 BuildRequires: python-setuptools
 BuildRequires: pytz
@@ -49,6 +52,7 @@ of Sourcefabric's Airtime Software.
 %patch6 -p 1
 %patch7 -p 1
 %patch8 -p 1
+%patch9 -p 1
 
 %build
 ls -al
@@ -103,6 +107,15 @@ cp airtime-test-soundcard \
    airtime-test-stream.py \
    $RPM_BUILD_ROOT/usr/bin/
 popd
+
+# install airtime-silan
+mkdir -p $RPM_BUILD_ROOT/usr/bin
+pushd utils
+cp airtime-silan \
+   $RPM_BUILD_ROOT/usr/bin/
+popd
+install %{SOURCE3} %{buildroot}/%{_exec_prefix}/lib/systemd/system/
+install %{SOURCE4} %{buildroot}/%{_exec_prefix}/lib/systemd/system/
 
 export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib64/python2.7/site-packages
 mkdir -p $PYTHONPATH
@@ -194,7 +207,6 @@ Installs the various utils neeeded by airtime to d stuff on the cli.
 /usr/sbin/airtime-backup.py
 /usr/sbin/airtime-log
 /usr/sbin/airtime-log.php
-/usr/sbin/airtime-silan
 /usr/sbin/airtime-import
 /usr/bin/airtime-test-*
 
@@ -327,3 +339,21 @@ Install airtimes xsl into icecast.
 
 %files -n airtime-icecast
 /usr/share/icecast/web/airtime-icecast-status.xsl
+
+%package -n airtime-silan
+Summary: radio rabe airtime-silan installation
+
+AutoReqProv: no
+
+Requires: silan
+
+%description -n silan
+Airtime silan analyses file using silan and stores cue_in and cue_out information on the files. It is
+usually run on the same machine as airtime-media-monitor and in fact used to be part of it's ingest
+process not long ago.
+
+%files -n airtime-silan
+/usr/sbin/airtime-silan
+%attr(550, -, -) %{_exec_prefix}/lib/systemd/system/airtime-silan.service
+%attr(550, -, -) %{_exec_prefix}/lib/systemd/system/airtime-silan.timer
+

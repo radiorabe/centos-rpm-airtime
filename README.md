@@ -131,3 +131,16 @@ chmod g+w /srv/airtime/stor/{problem_files,organize,imported}
 systemctl enable airtime-media-monitor
 systemctl start airtime-media-monitor
 ```
+
+### Airtime Silan
+
+```bash
+yum install airtime-silan
+
+# run it manually
+airtime-silan
+
+# or let systemd run it once per hour
+systemctl start airtime-silan.timer
+systemctl enable airtime-silan.timer
+```

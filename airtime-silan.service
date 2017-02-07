@@ -1,0 +1,6 @@
+[Unit]
+Description=Airtime Silan silence detector
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/airtime-silan

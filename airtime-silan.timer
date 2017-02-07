@@ -1,0 +1,12 @@
+[Unit]
+Description=Runs airtime-silan every hour
+
+[Timer]
+# Wait for a while after booting
+OnBootSec=30min
+# Run once per hour
+OnUnitActiveSec=1h
+Unit=airtime-silan.service
+
+[Install]
+WantedBy=multi-user.target
