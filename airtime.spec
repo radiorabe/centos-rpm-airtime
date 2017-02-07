@@ -347,7 +347,7 @@ AutoReqProv: no
 
 Requires: silan
 
-%description -n silan
+%description -n airtime-silan
 Airtime silan analyses file using silan and stores cue_in and cue_out information on the files. It is
 usually run on the same machine as airtime-media-monitor and in fact used to be part of it's ingest
 process not long ago.
