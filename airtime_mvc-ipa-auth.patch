@@ -9,8 +9,8 @@ index c808c2a..fd05758 100644
 +        $ipaUser = false;
 +        $remoteUser = NULL;
 +        $ipaDummyPass = NULL;
-+        if (array_key_exists('REDIRECT_REMOTE_USER', $_SERVER)) {
-+            $remoteUser = $_SERVER['REDIRECT_REMOTE_USER'];
++        if (array_key_exists('REMOTE_USER', $_SERVER)) {
++            $remoteUser = $_SERVER['REMOTE_USER'];
 +            if ($remoteUser !== 'admin') {
 +                $ipaUser = true;
 +
@@ -81,11 +81,11 @@ index 3f9f145..e67bb00 100644
      
      private static function getUserId()
      {
-+        $ipaUser = array_key_exists('REDIRECT_REMOTE_USER', $_SERVER);
++        $ipaUser = array_key_exists('REMOTE_USER', $_SERVER);
 +        // let freshly authed ipa users set a password
 +        if ($ipaUser) {
 +            // figure out if user already exists in database
-+            $remoteUser = $_SERVER['REDIRECT_REMOTE_USER'];
++            $remoteUser = $_SERVER['REMOTE_USER'];
 +            $remoteUsers = CcSubjsQuery::create()->findByDbLogin($remoteUser);
 +            $remoteUserId = null;
 +            foreach ($remoteUsers as $remoteUserObj) {
