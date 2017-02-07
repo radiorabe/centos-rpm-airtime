@@ -353,7 +353,7 @@ usually run on the same machine as airtime-media-monitor and in fact used to be 
 process not long ago.
 
 %files -n airtime-silan
-/usr/sbin/airtime-silan
+/usr/bin/airtime-silan
 %attr(550, -, -) %{_exec_prefix}/lib/systemd/system/airtime-silan.service
 %attr(550, -, -) %{_exec_prefix}/lib/systemd/system/airtime-silan.timer
 
