@@ -76,6 +76,8 @@ rabbitmqctl set_permissions -p /airtime airtime ".*" ".*" ".*"
 
 ### Airtime Web
 
+* contains a feature patch to enable the <code>/api/show-playlist/id/<id></code> API.
+
 ```bash
 yum install airtime-web
 
