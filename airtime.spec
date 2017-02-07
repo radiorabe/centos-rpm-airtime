@@ -97,7 +97,6 @@ pushd utils
 cp airtime-backup.py \
    airtime-log \
    airtime-log.php \
-   airtime-silan \
    airtime-import/airtime-import \
    $RPM_BUILD_ROOT/usr/sbin/
 
