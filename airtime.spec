@@ -21,6 +21,7 @@ Patch7:         airtime_mvc-ipa-auth.patch
 Patch8:         api_client-tls-support.patch
 Patch9:         airtime-silan-command-popen-bug.patch
 Patch10:        airtime_mvc-feature-playlist-api.patch
+Patch11:        airtime_mvc-waveform-view-tls.patch
 
 BuildRequires: python-setuptools
 BuildRequires: pytz
@@ -55,6 +56,7 @@ of Sourcefabric's Airtime Software.
 %patch8 -p 1
 %patch9 -p 1
 %patch10 -p 1
+%patch11 -p 1
 
 %build
 ls -al
