@@ -2,7 +2,7 @@ diff --git a/airtime_mvc/application/controllers/LoginController.php b/airtime_m
 index c808c2a..fd05758 100644
 --- a/airtime_mvc/application/controllers/LoginController.php
 +++ b/airtime_mvc/application/controllers/LoginController.php
-@@ -20,6 +20,41 @@ class LoginController extends Zend_Controller_Action
+@@ -20,6 +20,42 @@ class LoginController extends Zend_Controller_Action
          if ($auth->hasIdentity()) {
              $this->_redirect('Showbuilder');
          }
@@ -29,7 +29,8 @@ index c808c2a..fd05758 100644
 +                }
 +                // Add info from IPA to user
 +                $user->setLogin($remoteUser);
-+                $user->setType('A');
++                // very simple hack to enable some kind of auth until i figure out how best to get group info into _SERVER
++                $user->setType(preg_match("/^ad[a-z]{4}@.*/", $remoteUser) ? 'A' : 'H');
 +                // Use a random password for IPA users, reset on each login... I may change this to get set to the IPA pass but hate that it is being stored as md5 behind the scenes
 +                $user->setPassword($ipaDummyPass);
 +                //$user->setFirstName('Airtime');
@@ -44,7 +45,7 @@ index c808c2a..fd05758 100644
  
          //uses separate layout without a navigation.
          $this->_helper->layout->setLayout('login');
-@@ -40,12 +75,16 @@ class LoginController extends Zend_Controller_Action
+@@ -40,12 +76,16 @@ class LoginController extends Zend_Controller_Action
              if (array_key_exists('recaptcha_response_field', $request->getPost())) {
                  $form->addRecaptcha();
              }
@@ -63,7 +64,7 @@ index c808c2a..fd05758 100644
                      $form->addRecaptcha();
                  } else {
                      $authAdapter = Application_Model_Auth::getAuthAdapter();
-@@ -55,7 +94,7 @@ class LoginController extends Zend_Controller_Action
+@@ -55,7 +95,7 @@ class LoginController extends Zend_Controller_Action
                                  ->setCredential($password);
                      
                      $result = $auth->authenticate($authAdapter);
