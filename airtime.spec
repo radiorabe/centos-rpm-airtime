@@ -37,6 +37,7 @@ BuildRequires: python-docopt
 BuildRequires: python-mutagen
 BuildRequires: python-vine
 BuildRequires: python-requests
+BuildRequires: systemd
 
 %description
 RPM packaging for Radio Bern RaBe's CentOS-7 based installation
@@ -65,7 +66,7 @@ rm -rf $RPM_BUILD_ROOT
 
 # Install system directories
 install -d %{buildroot}/%{_sysconfdir}/%{name}
-install -d %{buildroot}/%{_exec_prefix}/lib/systemd/system/
+install -d %{buildroot}/%{_unitdir}
 
 # install airtime-web parts in the right location for the httpd package
 mkdir -p $RPM_BUILD_ROOT/var/www/
@@ -115,8 +116,8 @@ pushd utils
 cp airtime-silan \
    $RPM_BUILD_ROOT/usr/bin/
 popd
-install %{SOURCE3} %{buildroot}/%{_exec_prefix}/lib/systemd/system/
-install %{SOURCE4} %{buildroot}/%{_exec_prefix}/lib/systemd/system/
+install %{SOURCE3} %{buildroot}/%{_unitdir}
+install %{SOURCE4} %{buildroot}/%{_unitdir}
 
 export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib64/python2.7/site-packages
 mkdir -p $PYTHONPATH
@@ -129,7 +130,7 @@ mkdir -p $RPM_BUILD_ROOT/${_prefix}etc/airtime/
 cp install/media_monitor_logging.cfg $RPM_BUILD_ROOT/${_prefix}etc/airtime/media_monitor_logging.cfg
 popd
 install -d %{buildroot}/%{_tmppath}/%{name}/media-monitor
-install %{SOURCE1} %{buildroot}/%{_exec_prefix}/lib/systemd/system/
+install %{SOURCE1} %{buildroot}/%{_unitdir}
 
 # install std_err_override module
 pushd python_apps/std_err_override/
@@ -150,7 +151,7 @@ pushd python_apps/pypo/
 python setup.py build
 python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PYTHONPATH
 popd
-install %{SOURCE2} %{buildroot}/%{_exec_prefix}/lib/systemd/system/
+install %{SOURCE2} %{buildroot}/%{_unitdir}
 
 # install icecast xsl
 pushd python_apps/icecast2
@@ -235,10 +236,10 @@ Requires: python-vine
 Requires: airtime-std_err_override
 Requires: airtime-api_clients
 Requires: lsof
+%{?systemd_requires}
 
 %description -n airtime-media-monitor
 airtime media-monitor imports uploaded files and watches directories
-
 
 %pre -n airtime-media-monitor
 getent group airtime-media-monitor >/dev/null || groupadd -r airtime-media-monitor
@@ -247,11 +248,19 @@ getent passwd airtime-media-monitor >/dev/null || \
     -c "Airtime media monitor" airtime-media-monitor
 exit 0
 
+%post -n airtime-media-monitor
+%systemd_post airtime-media-monitor.service
+
+%preun -n airtime-media-monitor
+%systemd_preun airtime-media-monitor.service
+
+%postun -n airtime-media-monitor
+%systemd_postun airtime-media-monitor.service
 
 %files -n airtime-media-monitor
 %dir %attr(-, airtime-media-monitor, airtime-media-monitor) %{_tmppath}/%{name}/media-monitor
 %config /etc/%{name}/media_monitor_logging.cfg
-%attr(550, -, -) %{_exec_prefix}/lib/systemd/system/airtime-media-monitor.service
+%attr(550, -, -) %{_unitdir}/airtime-media-monitor.service
 %{_bindir}/airtime-media-monitor
 %{_libdir}/python2.7/site-packages/airtime_media_monitor*
 
@@ -305,7 +314,7 @@ Requires: python-amqplib
 Requires: python-vine
 Requires: airtime-api_clients
 Requires: airtime-std_err_override
-
+%{?systemd_requires}
 
 %description -n airtime-pypo
 Python Play-Out for airtime calls liquidsoap as defined in airtime.
@@ -318,9 +327,18 @@ getent passwd airtime-pypo >/dev/null || \
     -c "Airtime pypo playout server" airtime-pypo
 exit 0
 
+%post -n airtime-pypo
+%systemd_post airtime-pypo.service
+
+%preun -n airtime-pypo
+%systemd_preun airtime-pypo.service
+
+%postun -n airtime-pypo
+%systemd_postun airtime-pypo.service
+
 
 %files -n airtime-pypo
-%attr(550, -, -) %{_exec_prefix}/lib/systemd/system/airtime-pypo.service
+%attr(550, -, -) %{_unitdir}/airtime-pypo.service
 %{_libdir}/python2.7/site-packages/airtime_playout-1.0-py2.7.egg
 %{_bindir}/airtime-liquidsoap
 %{_bindir}/airtime-playout
@@ -347,14 +365,24 @@ Summary: radio rabe airtime-silan installation
 AutoReqProv: no
 
 Requires: silan
+%{?systemd_requires}
 
 %description -n airtime-silan
 Airtime silan analyses file using silan and stores cue_in and cue_out information on the files. It is
 usually run on the same machine as airtime-media-monitor and in fact used to be part of it's ingest
 process not long ago.
 
+%post -n airtime-silan
+%systemd_post airtime-silan.timer
+
+%preun -n airtime-silan
+%systemd_preun airtime-silan.timer
+
+%postun -n airtime-silan
+%systemd_postun airtime-silan.timer
+
 %files -n airtime-silan
 /usr/bin/airtime-silan
-%attr(550, -, -) %{_exec_prefix}/lib/systemd/system/airtime-silan.service
-%attr(550, -, -) %{_exec_prefix}/lib/systemd/system/airtime-silan.timer
+%attr(550, -, -) %{_unitdir}/airtime-silan.service
+%attr(550, -, -) %{_unitdir}/airtime-silan.timer
 
