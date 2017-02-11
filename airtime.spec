@@ -20,7 +20,7 @@ URL:            https://github.com/radiorabe/%{name}
 Source0:        https://github.com/radiorabe/%{name}/archive/2.5.x.tar.gz#/%{name}-%{version}.tar.gz
 Source1:        centos-rpm-%{name}-%{release}
 # uncomment to hack on a branch of centos-rpm-airtime
-Source1:        https://github.com/radiorabe/centos-rpm-%{name}/archive/%{_release}.tar.gz#/centos-rpm-%{name}-%{_release}.tar.gz
+#Source1:        https://github.com/radiorabe/centos-rpm-%{name}/archive/%{_release}.tar.gz#/centos-rpm-%{name}-%{_release}.tar.gz
 
 BuildRequires: python-setuptools
 BuildRequires: pytz
