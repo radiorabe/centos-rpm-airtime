@@ -1,6 +1,6 @@
 
 # define the version of centos-rpm-airtime to build against (used as part of the packages release)
-%define _release 3
+%define _release 4
 # uncomment to hack on a branch of centos-rpm-airtime
 #%define _release master
 
