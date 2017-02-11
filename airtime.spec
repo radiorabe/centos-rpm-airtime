@@ -5,7 +5,7 @@
 #%define _release master
 
 Name:           airtime
-Version:        2.5.x
+Version:        2.5.x.0.1.0
 %if 0%{?opensuse_bs}
 # <centos-rpm-airtime-version>.<rebuild-count>.rabe
 Release:        %{_release}.<B_CNT>.rabe
@@ -17,7 +17,7 @@ Summary:        radio rabe airtime installation
 
 License:        AGPL
 URL:            https://github.com/radiorabe/%{name}
-Source0:        https://github.com/radiorabe/%{name}/archive/2.5.x.tar.gz#/%{name}-%{version}.tar.gz
+Source0:        https://github.com/radiorabe/%{name}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 Source1:        centos-rpm-%{name}-%{release}
 # uncomment to hack on a branch of centos-rpm-airtime
 #Source1:        https://github.com/radiorabe/centos-rpm-%{name}/archive/%{_release}.tar.gz#/centos-rpm-%{name}-%{_release}.tar.gz
@@ -46,11 +46,6 @@ of Sourcefabric's Airtime Software.
 %prep
 %setup -q
 %setup -q -T -D -a 1 -c -n %{name}-%{version}
-# apply patches from centos-rpm-airtime package
-for patch in `ls centos-rpm-%{name}-%{_release}/*.patch`; do
-  echo "Patch ${patch}:"
-  patch -p1  -s < ${patch}
-done
 
 %build
 ls -al
