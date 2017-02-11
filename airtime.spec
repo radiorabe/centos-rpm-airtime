@@ -1,26 +1,26 @@
+
+# define the version of centos-rpm-airtime to build against (used as part of the packages release)
+%define _release 0
+# uncomment to hack on a branch of centos-rpm-airtime
+#%define _release master
+
 Name:           airtime
 Version:        2.5.x
-Release:        6%{?dist}
+%if 0%{?opensuse_bs}
+# <centos-rpm-airtime-version>.<rebuild-count>.rabe
+Release:        %{_release}.<B_CNT>.rabe
+%else
+# same thing with build 0 for non obs packages
+Release:        %{_release}.0.rabe
+%endif
 Summary:        radio rabe airtime installation
 
 License:        AGPL
-URL:            https://github.com/radiorabe/airtime
-Source0:        https://github.com/radiorabe/airtime/archive/2.5.x.zip
-Source1:        airtime-media-monitor.service
-Source2:        airtime-pypo.service
-Source3:        airtime-silan.service
-Source4:        airtime-silan.timer
-Patch0:         media-monitor-centos-setup.patch
-Patch1:         media-monitor-log-json-to-stdout.patch
-Patch2:         media-monitor-fix-loading-files-with-encoded-filenames.patch
-Patch3:         media-monitor-no-chmod.patch
-Patch4:         pypo-centos-setup.patch
-Patch5:         liquidsoap-log-to-stdout.patch
-Patch6:         airtime_mvc-storedfile-model-fixes.patch
-Patch7:         airtime_mvc-ipa-auth.patch
-Patch8:         api_client-tls-support.patch
-Patch9:         airtime-silan-command-popen-bug.patch
-Patch10:        airtime_mvc-feature-playlist-api.patch
+URL:            https://github.com/radiorabe/%{name}
+Source0:        https://github.com/radiorabe/%{name}/archive/2.5.x.tar.gz#/%{name}-%{version}.tar.gz
+Source1:        centos-rpm-%{name}-%{release}
+# uncomment to hack on a branch of centos-rpm-airtime
+Source1:        https://github.com/radiorabe/centos-rpm-%{name}/archive/%{_release}.tar.gz#/centos-rpm-%{name}-%{_release}.tar.gz
 
 BuildRequires: python-setuptools
 BuildRequires: pytz
@@ -45,17 +45,12 @@ of Sourcefabric's Airtime Software.
 
 %prep
 %setup -q
-%patch0 -p 1
-%patch1 -p 1
-%patch2 -p 1
-%patch3 -p 1
-%patch4 -p 1
-%patch5 -p 1
-%patch6 -p 1
-%patch7 -p 1
-%patch8 -p 1
-%patch9 -p 1
-%patch10 -p 1
+%setup -q -T -D -a 1 -c -n %{name}-%{version}
+# apply patches from centos-rpm-airtime package
+for patch in `ls centos-rpm-%{name}-%{_release}/*.patch`; do
+  echo "Patch ${patch}:"
+  patch -p1  -s < ${patch}
+done
 
 %build
 ls -al
@@ -67,6 +62,10 @@ rm -rf $RPM_BUILD_ROOT
 # Install system directories
 install -d %{buildroot}/%{_sysconfdir}/%{name}
 install -d %{buildroot}/%{_unitdir}
+
+# isntall all the systemd units from centos-rpm repo
+install centos-rpm-%{name}-%{_release}/*.service %{buildroot}/%{_unitdir}
+install centos-rpm-%{name}-%{_release}/*.timer %{buildroot}/%{_unitdir}
 
 # install airtime-web parts in the right location for the httpd package
 mkdir -p $RPM_BUILD_ROOT/var/www/
@@ -116,8 +115,6 @@ pushd utils
 cp airtime-silan \
    $RPM_BUILD_ROOT/usr/bin/
 popd
-install %{SOURCE3} %{buildroot}/%{_unitdir}
-install %{SOURCE4} %{buildroot}/%{_unitdir}
 
 export PYTHONPATH=$RPM_BUILD_ROOT/${_prefix}usr/lib64/python2.7/site-packages
 mkdir -p $PYTHONPATH
@@ -130,7 +127,6 @@ mkdir -p $RPM_BUILD_ROOT/${_prefix}etc/airtime/
 cp install/media_monitor_logging.cfg $RPM_BUILD_ROOT/${_prefix}etc/airtime/media_monitor_logging.cfg
 popd
 install -d %{buildroot}/%{_tmppath}/%{name}/media-monitor
-install %{SOURCE1} %{buildroot}/%{_unitdir}
 
 # install std_err_override module
 pushd python_apps/std_err_override/
@@ -151,7 +147,6 @@ pushd python_apps/pypo/
 python setup.py build
 python setup.py install --prefix=$RPM_BUILD_ROOT/${_prefix}usr --install-lib=$PYTHONPATH
 popd
-install %{SOURCE2} %{buildroot}/%{_unitdir}
 
 # install icecast xsl
 pushd python_apps/icecast2
