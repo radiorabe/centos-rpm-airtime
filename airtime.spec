@@ -7,8 +7,8 @@
 Name:           airtime
 Version:        2.5.x.0.1.0
 %if 0%{?opensuse_bs}
-# <centos-rpm-airtime-version>.<rebuild-count>.rabe
-Release:        %{_release}.<B_CNT>.rabe
+# <build-count>.<rebuild-count>.<centos-rpm-airtime-version>.rabe
+Release:        <CI_CNT>.<B_CNT>.%{_release}.rabe
 %else
 # same thing with build 0 for non obs packages
 Release:        %{_release}.0.rabe
@@ -18,7 +18,7 @@ Summary:        radio rabe airtime installation
 License:        AGPL
 URL:            https://github.com/radiorabe/%{name}
 Source0:        https://github.com/radiorabe/%{name}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
-Source1:        centos-rpm-%{name}-%{_release}
+Source1:        centos-rpm-%{name}-%{_release}.tar.gz
 # uncomment to hack on a branch of centos-rpm-airtime
 #Source1:        https://github.com/radiorabe/centos-rpm-%{name}/archive/%{_release}.tar.gz#/centos-rpm-%{name}-%{_release}.tar.gz
 
