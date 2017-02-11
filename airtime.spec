@@ -18,7 +18,7 @@ Summary:        radio rabe airtime installation
 License:        AGPL
 URL:            https://github.com/radiorabe/%{name}
 Source0:        https://github.com/radiorabe/%{name}/archive/%{version}.tar.gz#/%{name}-%{version}.tar.gz
-Source1:        centos-rpm-%{name}-%{release}
+Source1:        centos-rpm-%{name}-%{_release}
 # uncomment to hack on a branch of centos-rpm-airtime
 #Source1:        https://github.com/radiorabe/centos-rpm-%{name}/archive/%{_release}.tar.gz#/centos-rpm-%{name}-%{_release}.tar.gz
 
